@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useState, useContext } from "react";
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 
@@ -54,7 +55,7 @@ const CreatePostWizard = () => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         disabled={isPosting}
-        onKeyDown={(e) => {  
+        onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault;
           }
@@ -81,7 +82,7 @@ const PostView = (props: PostWithUser) => {
   return (
     <div
       key={post.id}
-      className="flex items-center gap-5 border-b border-slate-400 p-4 rounded-md"
+      className="flex items-center gap-5 rounded-md border-b border-slate-400 p-4"
     >
       <Image
         src={author.profilePicture}
@@ -92,8 +93,12 @@ const PostView = (props: PostWithUser) => {
       />
       <div className="flex flex-col">
         <div className="flex gap-2 text-sm text-slate-300">
-          <span>{`@${author.username!}`}</span>·
-          <span className="font-thin">{dayjs(post.createdAt).fromNow()}</span>
+          <Link href={`/@${author.username}`}>
+            <span>{`@${author.username!}`}</span>·
+          </Link>
+          <Link href={`/post/${post.id}`}>
+            <span className="font-thin">{dayjs(post.createdAt).fromNow()}</span>
+          </Link>
         </div>
         <span className="">{post.content}</span>
       </div>
